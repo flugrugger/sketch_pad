@@ -1,23 +1,28 @@
-$(document).ready(function() {
+var red = 0;
 
-	for (var i=0; i<256; i++) {
-		var i = $('.box').length;
-		$('.container').append('<div class="box"></div>');
-	}
+var green = 0;
 
-	$('.box').on('mouseenter', function() {
-		$(this).addClass('black');
-	});
-});
+var blue = 0;
+
+var rgb = 'rgb('+red+','+green+','+blue+')';
 
 var newGrid = 16
 
 var newBoxLength = 25 
 
-function clearButton() {
-	$('.box').removeClass('black');
+function randomColor() {
+	red = Math.floor((Math.random()*255));
+
+	green = Math.floor((Math.random()*255));
+
+	blue = Math.floor((Math.random()*255));
+		
+	rgb = 'rgb('+red+','+green+','+blue+')';
 }
 
+function getColor() {
+	return rgb;
+}
 
 function changeBox() {
 	$('.box').width(newBoxLength);
@@ -25,10 +30,27 @@ function changeBox() {
 	$('.box').height(newBoxLength);
 }
 
+$(document).ready(function() {
+	for (var i=0; i<256; i++) {
+		var i = $('.box').length;
+		$('.container').append('<div class="box"></div>');
+	}
+
+	$('.box').on('mouseenter', function() {
+		randomColor();
+
+		$(this).css('background-color', getColor());
+	});
+});
+
+function clearButton() {
+	$('.box').css('background-color', '#fff');
+}
+
 function resetButton() {
 	$('div').remove('.box');
-	
-	newGrid = prompt("How many squares would you like on each side of the sketch pad?");
+
+	newGrid = prompt("How many squares on each side? (Max. 100)", "Enter number here");
 
 	newBoxLength = 400/newGrid;
 
@@ -38,8 +60,11 @@ function resetButton() {
 	}
 	
 	$('.box').on('mouseenter', function() {
-		$(this).addClass('black');
+		randomColor();
+
+		$(this).css('background-color', getColor());
 	});
 
 	changeBox();
 }
+
